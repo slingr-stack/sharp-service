@@ -70,3 +70,7 @@ with robust architecture for integrations and executing custom workflows and aut
 # License
 
 This package is licensed under the Apache License 2.0. See the `LICENSE` file for more details.
+
+# For more information look into the sharp documentation in the following link:
+
+[sharp.pixelplumbing.com](https://sharp.pixelplumbing.com/)
