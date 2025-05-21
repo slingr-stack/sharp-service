@@ -1,0 +1,66 @@
+{
+    "label": "Sharp",
+    "name": "sharp",
+    "apiVersion": "v1",
+    "internal": false,
+    "configurationType": "GLOBAL",
+    "deployment": {
+        "jsService": true,
+        "profiles":[
+            {
+                "name": "small",
+                "label": "Small",
+                "memory": 128,
+                "description": "Small Memory Allocation"
+            },
+            {
+                "name": "default",
+                "label": "Default",
+                "memory": 256,
+                "description": "Default Memory Allocation"
+            },
+            {
+                "name": "medium",
+                "label": "Medium",
+                "memory": 512,
+                "description": "Medium Memory Allocation"
+            },
+            {
+                "name": "big",
+                "label": "Big",
+                "memory": 1024,
+                "description": "Big Memory Allocation"
+            }
+        ],
+        "allowMultipleInstances": false
+    },
+    "status": "ACTIVE",
+    "stores": [],
+    "events": [
+        {
+            "label": "Image Processed",
+            "name": "imageProcessed",
+            "description": "Callback event for when a set of operations was executed"
+        }
+    ],
+    "functions": [
+        {
+            "label": "Process Image",
+            "name": "processImage",
+            "description": "The service receives a picture file and a list of operations to perform on the picture",
+            "callbacks": [
+                {
+                    "name": "imageProcessed",
+                    "maxWaitingTime": 120000,
+                    "maxExpectedResponses": 1
+                }
+            ]
+        },
+        {
+            "label": "Info",
+            "name": "info",
+            "description": "Returns info of the service running"
+        }
+    ],
+    "configuration":[]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "sharp-service",
+  "version": "1.0.0",
+  "description": "Slingr Service to process images",
+  "main": "appService.js",
+  "scripts": {
+    "start": "node appService.js",
+    "startDev": "nodemon appService.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juanma Espinosa <jmespinosa@slingr.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/slingr-stack/sharp-service"
+  },
+  "keywords": [
+    "slingr",
+    "image",
+    "services"
+  ],
+  "dependencies": {
+    "@slingr/slingr-services": "^0.0.8",
+    "sharp": "0.32.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
