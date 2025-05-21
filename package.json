@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "@slingr/slingr-services": "^0.0.8",
-    "sharp": "0.32.6"
+    "sharp": "^0.34.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
