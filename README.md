@@ -27,7 +27,37 @@ images in various formats.
 - `svc.sharp.processImage`
 
 ```js
-log('Example Here');
+let fileId = record.field('image').id();
+
+let options = {
+  fileId: fileId,
+  fileName: `${record.id()}-thumbnail.jpg`,
+  operations: [
+    ['resize', { width: 480 }],
+  ]
+}
+
+let callbackData = {
+  recordId: record.id(),
+}
+
+let callback = function(res, callbackData) {
+  if (! res.ok) {
+    return sys.logs.error(`Unable to process file with sharp`, res);
+  }
+  let record = sys.data.findById('images', callbackData.recordId);
+  record.lock(record => {
+    record.field('thumbnail').val({
+      id: res.file.fileId,
+      name: res.file.fileName,
+    });
+    sys.data.save(record);
+  });
+}
+
+svc.sharp.processImage(options, callbackData, {
+  imageProcessed: callback,
+});
 ```
 
 # About SLINGR
