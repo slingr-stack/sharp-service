@@ -64,10 +64,10 @@ svc.functions.info = () => {
     return {
         node: {
             version: process.version,
-            platform: process.platform,
-            arch: process.arch,
-            memoryUsage: process.memoryUsage(),
-        }
+        },
+        platform: process.platform,
+        arch: process.arch,
+        memoryUsage: process.memoryUsage(),
     }
 }
 
