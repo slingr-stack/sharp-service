@@ -14,6 +14,7 @@ svc.functions.processImage = async ({ params, id }) => {
         fileId,
         fileName,
         operations,
+        downloadSync,
     } = params;
 
     fileName ||= 'sharp-' + fileId;
@@ -25,26 +26,38 @@ svc.functions.processImage = async ({ params, id }) => {
         sharpFile = sharpFile[name](params);
     }
 
-    sharpFile
-        .toBuffer()
-        .then(async (data) => {
-            // Upload file to Slingr app
-            let file = await svc.files.upload(fileName, data);
-            // Send callback event to the app with the file
-            svc.events.send('imageProcessed', {
-                file,
-                ok: true,
-            }, id);
-        })
-        .catch(err => {
-            // On Error send back to the app to handle the error
-            svc.events.send('imageProcessed', {
-                ok: false,
-                error: err.message,
-                params: params,
-            }, id);
-        })
-    return { ok: true };
+    // Instant response and keep processing the image on the background
+    // Send the callback event to the function
+    if (! downloadSync) {
+        sharpFile
+            .toBuffer()
+            .then(async (data) => {
+                let file = await successProcessFile(fileName, data);
+                svc.events.send('imageProcessed', {
+                    file,
+                    ok: true,
+                }, id);
+            })
+            .catch(async (err) => {
+                svc.events.send('imageProcessed', {
+                    ok: false,
+                    error: err.message,
+                    params: params,
+                }, id);
+            });
+        return { ok: true };
+    }
+
+    // Wait until the image is processed and return
+    // the file as the function response
+    if (downloadSync) {
+        let data = await sharpFile.toBuffer();
+        return await successProcessFile(fileName, data);
+    }
+}
+
+async function successProcessFile(fileName, data) {
+    return await svc.files.upload(fileName, data);
 }
 
 svc.functions.info = () => {
