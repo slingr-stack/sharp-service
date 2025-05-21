@@ -29,10 +29,8 @@ svc.functions.processImage = async ({ params, id }) => {
         .toBuffer()
         .then(async (data) => {
             // Upload file to Slingr app
-            console.log('Uploading file...');
             let file = await svc.files.upload(fileName, data);
             // Send callback event to the app with the file
-            console.log('Sending OK event');
             svc.events.send('imageProcessed', {
                 file,
                 ok: true,
@@ -40,7 +38,6 @@ svc.functions.processImage = async ({ params, id }) => {
         })
         .catch(err => {
             // On Error send back to the app to handle the error
-            console.log('Sending ERROR event');
             svc.events.send('imageProcessed', {
                 ok: false,
                 error: err.message,
