@@ -9,6 +9,11 @@ svc.hooks.onSvcStop = (cause) => {
     svc.logger.info('Sharp Service is stopping.');
 }
 
+/**
+ * Wraps the `sharp` class and execute operations in order
+ * @param {Object} request - Function call from the slingr app
+ * @returns {Promise} Response to the slingr app with the processed file id
+ */
 svc.functions.processImage = async ({ params, id }) => {
     let {
         fileId,
@@ -56,10 +61,10 @@ svc.functions.processImage = async ({ params, id }) => {
     }
 }
 
-async function successProcessFile(fileName, data) {
-    return await svc.files.upload(fileName, data);
-}
-
+/**
+ * Shows Node version, system information and memo
+ * @returns {Object} - Information object
+ */
 svc.functions.info = () => {
     return {
         node: {
