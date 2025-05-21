@@ -37,7 +37,7 @@ svc.functions.processImage = async ({ params, id }) => {
         sharpFile
             .toBuffer()
             .then(async (data) => {
-                let file = await successProcessFile(fileName, data);
+                let file = await svc.files.upload(fileName, data);
                 svc.events.send('imageProcessed', {
                     file,
                     ok: true,
@@ -57,7 +57,7 @@ svc.functions.processImage = async ({ params, id }) => {
     // the file as the function response
     if (downloadSync) {
         let data = await sharpFile.toBuffer();
-        return await successProcessFile(fileName, data);
+        return await svc.files.upload(fileName, data);
     }
 }
 
