@@ -27,8 +27,8 @@ svc.functions.processImage = async ({ params, id }) => {
     let file = await svc.files.download(fileId);
     let sharpFile = sharp(file);
     for (let operation of operations) {
-        let [name, params] = operation;
-        sharpFile = sharpFile[name](params);
+        let [name, ...params] = operation;
+        sharpFile = sharpFile[name](...params);
     }
 
     // Instant response and keep processing the image on the background
