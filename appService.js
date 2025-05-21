@@ -9,6 +9,15 @@ svc.hooks.onSvcStop = (cause) => {
     svc.logger.info('Sharp Service is stopping.');
 }
 
+function throwError(message, additionalInfo = {}) {
+    return {
+        __service_exception__: true,
+        message,
+        additionalInfo,
+        error: { code: 'sharpError', name: 'Sharp Service Error' }
+    }
+}
+
 /**
  * Wraps the `sharp` class and execute operations in order
  * @param {Object} request - Function call from the slingr app
@@ -21,6 +30,12 @@ svc.functions.processImage = async ({ params, id }) => {
         operations,
         downloadSync,
     } = params;
+    if (! fileId) {
+        return throwError('fileId can\'t be empty', { params });
+    }
+    if (! operations || operations.length === 0) {
+        return throwError('operations can\'t be empty', { params });
+    }
 
     fileName ||= 'sharp-' + fileId;
 
