@@ -36,6 +36,9 @@ svc.functions.processImage = async ({ params, id }) => {
     if (! operations || operations.length === 0) {
         return throwError('operations can\'t be empty', { params });
     }
+    if (! validateOperations(operations)) {
+        return throwError('there is invalid sharp operations', { params });
+    }
 
     fileName ||= 'sharp-' + fileId;
 
@@ -74,6 +77,13 @@ svc.functions.processImage = async ({ params, id }) => {
         let data = await sharpFile.toBuffer();
         return await svc.files.upload(fileName, data);
     }
+}
+
+function validateOperations(operations) {
+    let instance = sharp();
+    return operations
+        .map(operation => operation[0])
+        .every(name => instance[name]);
 }
 
 /**
