@@ -83,7 +83,7 @@ let res = svc.sharp.processImage({
   ],
   downloadSync: true,
 });
-sys.logs.info(`File resized: [${res.file.fileId}]`);
+sys.logs.info(`File resized: [${res.fileId}]`);
 ```
 
 ### Other examples
@@ -103,7 +103,7 @@ let res = svc.sharp.processImage({
   ],
   downloadSync: true,
 });
-sys.logs.info(`File resized: [${res.file.fileId}]`);
+sys.logs.info(`File resized: [${res.fileId}]`);
 ```
 
 # About SLINGR
